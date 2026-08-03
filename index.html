@@ -5,78 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jobnest India - Find Your Dream Job</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-    body { background-color: #f4f6f9; color: #333; }
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --text-sub: #6b7280;
+      --border-color: #e5e7eb;
+      --header-bg: #003366;
+    }
 
-    /* Top Navigation Header */
-    header { background: #003366; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    body.dark-theme {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-color: #f8fafc;
+      --text-sub: #94a3b8;
+      --border-color: #334155;
+      --header-bg: #0284c7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; }
+
+    header { background: var(--header-bg); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     header h1 { font-size: 22px; font-weight: bold; }
     header h1 span { color: #ff9900; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
     .user-profile { font-size: 14px; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 20px; }
+    .settings-icon-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 50%; cursor: pointer; font-size: 16px; transition: 0.2s; }
 
-    /* Main Container */
     .container { max-width: 1100px; margin: 25px auto; padding: 0 15px; }
 
-    /* Search Bar Area */
     .search-container { margin-bottom: 20px; }
-    .search-box { width: 100%; padding: 14px 20px; border: 2px solid #003366; border-radius: 10px; font-size: 16px; outline: none; background: #fff; transition: all 0.3s; }
-    .search-box:focus { box-shadow: 0 0 8px rgba(0, 51, 102, 0.3); }
+    .search-box { width: 100%; padding: 14px 20px; border: 2px solid #003366; border-radius: 10px; font-size: 16px; outline: none; background: var(--card-bg); color: var(--text-color); }
 
-    /* Category Scroll Pills */
     .categories-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; scrollbar-width: none; }
     .categories-scroll::-webkit-scrollbar { display: none; }
-    .cat-btn { background: white; border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 14px; cursor: pointer; white-space: nowrap; transition: 0.2s; font-weight: 500; }
-    .cat-btn:hover, .cat-btn.active { background: #003366; color: white; border-color: #003366; }
+    .cat-btn { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 20px; padding: 8px 18px; font-size: 14px; cursor: pointer; white-space: nowrap; font-weight: 500; }
+    .cat-btn.active { background: #003366; color: white; border-color: #003366; }
 
-    /* Job Cards Grid Layout */
     .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-    .job-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px rgba(0,0,0,0.03); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
-    .job-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-
-    .bookmark-btn { position: absolute; top: 18px; right: 18px; background: none; border: none; font-size: 20px; cursor: pointer; color: #ccc; transition: 0.2s; }
+    .job-card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); position: relative; }
+    .bookmark-btn { position: absolute; top: 18px; right: 18px; background: none; border: none; font-size: 20px; cursor: pointer; color: #ccc; }
     .bookmark-btn.saved { color: #ff9900; }
 
-    .job-title { color: #003366; font-size: 18px; font-weight: bold; margin-bottom: 6px; padding-right: 30px; }
-    .company-name { color: #4b5563; font-size: 14px; font-weight: 600; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+    .job-title { color: var(--text-color); font-size: 18px; font-weight: bold; margin-bottom: 6px; padding-right: 30px; }
+    .company-name { color: var(--text-sub); font-size: 14px; font-weight: 600; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
 
     .job-details { margin-bottom: 15px; }
     .detail-item { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; }
-    .detail-label { color: #6b7280; font-weight: 500; }
-    .detail-value { color: #111827; font-weight: 600; text-align: right; }
+    .detail-label { color: var(--text-sub); }
+    .detail-value { color: var(--text-color); font-weight: 600; }
 
-    /* Action Buttons */
     .card-actions { display: flex; gap: 10px; margin-top: 15px; }
-    .btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; text-decoration: none; }
-    .btn-details { background: #f3f4f6; color: #374151; }
-    .btn-details:hover { background: #e5e7eb; }
+    .btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; text-decoration: none; }
+    .btn-details { background: var(--border-color); color: var(--text-color); }
     .btn-apply { background: #16a34a; color: white; }
-    .btn-apply:hover { background: #15803d; }
 
-    /* Modal / Pop-up Window */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
-    .modal-card { background: white; width: 100%; max-width: 500px; border-radius: 12px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; overflow-y: auto; }
-    .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666; }
+    .modal-card { background: var(--card-bg); color: var(--text-color); width: 100%; max-width: 500px; border-radius: 12px; padding: 25px; position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: var(--text-sub); }
 
+    .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
     footer { background: #111827; color: #9ca3af; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <h1>Jobnest <span>India</span></h1>
-    <div class="user-profile">👤 Guest User</div>
+    <div class="header-actions">
+      <div class="user-profile">👤 Guest User</div>
+      <button class="settings-icon-btn" onclick="openSettingsModal()">⚙️</button>
+    </div>
   </header>
 
-  <!-- Main Container -->
   <div class="container">
-    
-    <!-- Live Search Bar -->
     <div class="search-container">
-      <input type="text" id="searchInput" class="search-box" placeholder="🔍 সার্চ করুন (যেমন: SSC, Driver, Graduate, Govt)..." onkeyup="filterJobs()">
+      <input type="text" id="searchInput" class="search-box" placeholder="🔍 সার্চ করুন (যেমন: SSC, Driver)..." onkeyup="filterJobs()">
     </div>
 
-    <!-- Category Filter Buttons -->
     <div class="categories-scroll">
       <button class="cat-btn active" onclick="filterCategory('all', this)">📢 All Jobs</button>
       <button class="cat-btn" onclick="filterCategory('Govt', this)">🏛️ Govt Jobs</button>
@@ -85,23 +92,31 @@
       <button class="cat-btn" onclick="filterCategory('saved', this)">⭐ Saved Jobs</button>
     </div>
 
-    <!-- Job Cards Grid -->
-    <div class="job-grid" id="jobGrid">
-      <!-- Jobs will load dynamically via JS -->
-    </div>
-
+    <div class="job-grid" id="jobGrid"></div>
   </div>
 
-  <!-- Job Details Modal Pop-up -->
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeSettingsModal()">&times;</span>
+      <h2 style="margin-bottom: 15px;">⚙️ Settings Panel</h2>
+      <div class="setting-item">
+        <label>🌙 Dark Mode (ডার্ক থিম)</label>
+        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode(this.checked)" style="width:20px; height:20px;">
+      </div>
+      <div class="setting-item" style="border:none; margin-top:15px;">
+        <button onclick="clearSavedJobs()" style="background:#ef4444; color:white; border:none; padding:10px 15px; border-radius:8px; width:100%; font-weight:bold; cursor:pointer;">🗑️ Clear Saved Jobs</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Job Details Modal -->
   <div class="modal-overlay" id="jobModal">
     <div class="modal-card">
       <span class="modal-close" onclick="closeModal()">&times;</span>
       <h2 id="modalTitle" style="color:#003366; margin-bottom: 5px;"></h2>
-      <p id="modalCompany" style="color: #6b7280; font-weight:600; margin-bottom: 15px;"></p>
-      <hr style="margin-bottom: 15px; border: 0; border-top: 1px solid #eee;">
-      
+      <p id="modalCompany" style="color: var(--text-sub); font-weight:600; margin-bottom: 15px;"></p>
       <div id="modalBody" style="line-height: 1.6; font-size: 14px; margin-bottom: 20px;"></div>
-      
       <a id="modalApplyBtn" href="#" target="_blank" class="btn btn-apply" style="display:block; text-align:center;">সরাসরি আবেদন করুন 🚀</a>
     </div>
   </div>
@@ -111,64 +126,28 @@
   </footer>
 
   <script>
-    // Sample Job Data
-    const jobs = [
-      {
-        id: 1,
-        title: "SSC CGL Recruitment 2026",
-        company: "Staff Selection Commission",
-        salary: "₹35,400 - ₹1,12,400 / Month",
-        qualification: "Graduate Degree",
-        age: "18 - 30 Years",
-        lastDate: "25th August 2026",
-        category: "Govt Graduate",
-        details: "কেন্দ্রীয় সরকারের বিভিন্ন মন্ত্রণালয় ও দপ্তরে বিশাল নিয়োগের বিজ্ঞপ্তি জারি হয়েছে। পরীক্ষার মাধ্যমে সরাসরি যোগ্য প্রার্থীদের বেছে নেওয়া হবে।"
-      },
-      {
-        id: 2,
-        title: "Heavy Vehicle Driver",
-        company: "State Transport Corp",
-        salary: "₹22,000 / Month",
-        qualification: "10th Pass + HMV License",
-        age: "21 - 38 Years",
-        lastDate: "18th August 2026",
-        category: "10th",
-        details: "রাজ্য পরিবহন নিগমে স্থায়ী বাস ও ভারী যানবাহন চালকের পদে আবেদন জমা নেওয়া শুরু হয়েছে। ড্রাইভিং টেস্টের মাধ্যমে নির্বাচন হবে।"
-      },
-      {
-        id: 3,
-        title: "Railway Group D Recruitment",
-        company: "Indian Railways",
-        salary: "₹19,900 - ₹63,200 / Month",
-        qualification: "10th Pass / ITI",
-        age: "18 - 33 Years",
-        lastDate: "10th September 2026",
-        category: "Govt 10th",
-        details: "ভারতীয় রেলওয়েতে ট্র্যাক মেইনটেইনার ও অ্যাসিস্ট্যান্ট পদে বিপুল পরিমাণ কর্মী নিয়োগের বিজ্ঞপ্তি প্রকাশিত হয়েছে।"
-      },
-      {
-        id: 4,
-        title: "Bank Probationary Officer (PO)",
-        company: "IBPS / State Bank",
-        salary: "₹48,480 / Month",
-        qualification: "Graduate Degree",
-        age: "20 - 30 Years",
-        lastDate: "05th September 2026",
-        category: "Govt Graduate",
-        details: "বিভিন্ন পাবলিক সেক্টর ব্যাংকে পিও পদে যোগ্য প্রার্থীদের কাছ থেকে অনলাইন আবেদনপত্র আহ্বান করা হচ্ছে।"
-      }
-    ];
-
+    let jobs = [];
     let savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
     let currentCategory = 'all';
 
-    // Render Jobs
+    // Fetch jobs from jobs.json file
+    fetch('jobs.json')
+      .then(response => response.json())
+      .then(data => {
+        jobs = data;
+        renderJobs(jobs);
+      })
+      .catch(err => {
+        console.error("Jobs load error:", err);
+        document.getElementById('jobGrid').innerHTML = '<p style="grid-column:1/-1; text-align:center;">ডাটা লোড করতে সমস্যা হচ্ছে!</p>';
+      });
+
     function renderJobs(jobList) {
       const jobGrid = document.getElementById('jobGrid');
       jobGrid.innerHTML = '';
 
       if (jobList.length === 0) {
-        jobGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 40px 0;">কোনো চাকরি পাওয়া যায়নি! 😞</p>`;
+        jobGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 40px 0;">কোনো চাকরি পাওয়া যায়নি!</p>`;
         return;
       }
 
@@ -195,25 +174,15 @@
       });
     }
 
-    // Filter Logic
     function filterJobs() {
       const searchText = document.getElementById('searchInput').value.toLowerCase();
-      
       const filtered = jobs.filter(job => {
-        const matchesSearch = job.title.toLowerCase().includes(searchText) || 
-                              job.company.toLowerCase().includes(searchText) || 
-                              job.qualification.toLowerCase().includes(searchText);
-
+        const matchesSearch = job.title.toLowerCase().includes(searchText) || job.company.toLowerCase().includes(searchText) || job.qualification.toLowerCase().includes(searchText);
         let matchesCat = true;
-        if (currentCategory === 'saved') {
-          matchesCat = savedJobIds.includes(job.id);
-        } else if (currentCategory !== 'all') {
-          matchesCat = job.category.includes(currentCategory);
-        }
-
+        if (currentCategory === 'saved') matchesCat = savedJobIds.includes(job.id);
+        else if (currentCategory !== 'all') matchesCat = job.category.includes(currentCategory);
         return matchesSearch && matchesCat;
       });
-
       renderJobs(filtered);
     }
 
@@ -224,7 +193,6 @@
       filterJobs();
     }
 
-    // Bookmark / Save Job
     function toggleSave(jobId, btn) {
       if (savedJobIds.includes(jobId)) {
         savedJobIds = savedJobIds.filter(id => id !== jobId);
@@ -237,30 +205,37 @@
       if (currentCategory === 'saved') filterJobs();
     }
 
-    // Modal Details Logic
     function openModal(jobId) {
       const job = jobs.find(j => j.id === jobId);
       if (!job) return;
-
       document.getElementById('modalTitle').innerText = job.title;
       document.getElementById('modalCompany').innerText = job.company;
-      document.getElementById('modalBody').innerHTML = `
-        <p><strong>বেতন:</strong> ${job.salary}</p>
-        <p><strong>শিক্ষাগত যোগ্যতা:</strong> ${job.qualification}</p>
-        <p><strong>বয়স সীমা:</strong> ${job.age}</p>
-        <p><strong>আবেদনের শেষ তারিখ:</strong> ${job.lastDate}</p>
-        <br>
-        <p><strong>বিস্তারিত বিবরণ:</strong><br>${job.details}</p>
-      `;
+      document.getElementById('modalBody').innerHTML = `<p><strong>বেতন:</strong> ${job.salary}</p><p><strong>যোগ্যতা:</strong> ${job.qualification}</p><p><strong>বয়স:</strong> ${job.age}</p><p><strong>শেষ তারিখ:</strong> ${job.lastDate}</p><br><p>${job.details}</p>`;
+      document.getElementById('modalApplyBtn').href = job.applyUrl || '#';
       document.getElementById('jobModal').style.display = 'flex';
     }
+    function closeModal() { document.getElementById('jobModal').style.display = 'none'; }
 
-    function closeModal() {
-      document.getElementById('jobModal').style.display = 'none';
+    function openSettingsModal() { document.getElementById('settingsModal').style.display = 'flex'; }
+    function closeSettingsModal() { document.getElementById('settingsModal').style.display = 'none'; }
+    
+    function toggleDarkMode(isDark) {
+      if(isDark) { document.body.classList.add('dark-theme'); localStorage.setItem('theme', 'dark'); } 
+      else { document.body.classList.remove('dark-theme'); localStorage.setItem('theme', 'light'); }
     }
 
-    // Initial Load
-    renderJobs(jobs);
+    function clearSavedJobs() {
+      if(confirm('সব সেভ ডাটা ক্লিয়ার করতে চান?')) {
+        localStorage.removeItem('savedJobs');
+        savedJobIds = [];
+        filterJobs();
+      }
+    }
+
+    if(localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-theme');
+      document.getElementById('darkModeToggle').checked = true;
+    }
   </script>
 </body>
 </html>
