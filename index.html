@@ -1,226 +1,266 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jobnest India - Find Your Dream Job</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #f4f6f9; color: #333; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jobnest India - Find Your Dream Job</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: #f4f6f9; color: #333; }
 
-        /* Login Modal Screen */
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .login-card { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; position: relative; }
-        .login-card h2 { color: #003366; margin-bottom: 5px; }
-        .login-card h2 span { color: #ff9900; }
-        .login-card p { color: #666; font-size: 14px; margin-bottom: 20px; }
-        
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #444; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; outline: none; }
-        .input-group input:focus { border-color: #003366; }
+    /* Top Navigation Header */
+    header { background: #003366; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    header h1 { font-size: 22px; font-weight: bold; }
+    header h1 span { color: #ff9900; }
+    .user-profile { font-size: 14px; background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 20px; }
 
-        .btn-login { width: 100%; background: #003366; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        .btn-login:hover { background: #002244; }
+    /* Main Container */
+    .container { max-width: 1100px; margin: 25px auto; padding: 0 15px; }
 
-        .skip-btn { display: inline-block; margin-top: 15px; font-size: 13px; color: #666; text-decoration: underline; cursor: pointer; }
+    /* Search Bar Area */
+    .search-container { margin-bottom: 20px; }
+    .search-box { width: 100%; padding: 14px 20px; border: 2px solid #003366; border-radius: 10px; font-size: 16px; outline: none; background: #fff; transition: all 0.3s; }
+    .search-box:focus { box-shadow: 0 0 8px rgba(0, 51, 102, 0.3); }
 
-        /* Main Content Styling (Hidden initially or active) */
-        header { background: #003366; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 24px; }
-        header h1 span { color: #ff9900; }
-        .user-profile { font-size: 14px; background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 20px; }
+    /* Category Scroll Pills */
+    .categories-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; scrollbar-width: none; }
+    .categories-scroll::-webkit-scrollbar { display: none; }
+    .cat-btn { background: white; border: 1px solid #d1d5db; border-radius: 20px; padding: 8px 18px; font-size: 14px; cursor: pointer; white-space: nowrap; transition: 0.2s; font-weight: 500; }
+    .cat-btn:hover, .cat-btn.active { background: #003366; color: white; border-color: #003366; }
 
-        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
+    /* Job Cards Grid Layout */
+    .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .job-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px rgba(0,0,0,0.03); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+    .job-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
 
-        .search-container { margin-bottom: 20px; }
-        .search-box { width: 100%; padding: 14px 20px; border: 2px solid #003366; border-radius: 8px; font-size: 16px; outline: none; }
+    .bookmark-btn { position: absolute; top: 18px; right: 18px; background: none; border: none; font-size: 20px; cursor: pointer; color: #ccc; transition: 0.2s; }
+    .bookmark-btn.saved { color: #ff9900; }
 
-        .categories-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; scrollbar-width: none; }
-        .categories-scroll::-webkit-scrollbar { display: none; }
-        
-        .cat-btn { background: white; border: 1px solid #d1d5db; border-radius: 20px; padding: 10px 18px; font-size: 14px; font-weight: 600; color: #333; white-space: nowrap; cursor: pointer; transition: 0.2s; }
-        .cat-btn:hover, .cat-btn.active { background: #003366; color: white; border-color: #003366; }
+    .job-title { color: #003366; font-size: 18px; font-weight: bold; margin-bottom: 6px; padding-right: 30px; }
+    .company-name { color: #4b5563; font-size: 14px; font-weight: 600; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
 
-        .job-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-        
-        .job-card { background: white; border-radius: 10px; padding: 20px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
-        .job-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
+    .job-details { margin-bottom: 15px; }
+    .detail-item { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; }
+    .detail-label { color: #6b7280; font-weight: 500; }
+    .detail-value { color: #111827; font-weight: 600; text-align: right; }
 
-        .job-title { color: #003366; font-size: 18px; font-weight: bold; margin-bottom: 6px; }
-        .company-name { color: #4b5563; font-size: 14px; font-weight: 600; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+    /* Action Buttons */
+    .card-actions { display: flex; gap: 10px; margin-top: 15px; }
+    .btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; text-decoration: none; }
+    .btn-details { background: #f3f4f6; color: #374151; }
+    .btn-details:hover { background: #e5e7eb; }
+    .btn-apply { background: #16a34a; color: white; }
+    .btn-apply:hover { background: #15803d; }
 
-        .job-details { margin-bottom: 15px; }
-        .detail-item { display: flex; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; }
-        .detail-label { color: #6b7280; font-weight: 500; }
-        .detail-value { color: #111827; font-weight: 600; text-align: right; }
+    /* Modal / Pop-up Window */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+    .modal-card { background: white; width: 100%; max-width: 500px; border-radius: 12px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; max-height: 90vh; overflow-y: auto; }
+    .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666; }
 
-        .card-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .btn { flex: 1; text-align: center; padding: 10px 5px; border-radius: 6px; font-size: 13px; font-weight: bold; text-decoration: none; cursor: pointer; }
-        .btn-notification { background: #e5e7eb; color: #374151; }
-        .btn-notification:hover { background: #d1d5db; }
-        .btn-apply { background: #16a34a; color: white; }
-        .btn-apply:hover { background: #15803d; }
-
-        footer { background: #111827; color: #9ca3af; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; }
-    </style>
+    footer { background: #111827; color: #9ca3af; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; }
+  </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN / REGISTER POPUP OVERLAY -->
-    <div class="login-overlay" id="loginModal">
-        <div class="login-card">
-            <h2>Jobnest <span>India</span></h2>
-            <p>লগইন করুন সেরা সব চাকরির আপডেট পেতে</p>
+  <!-- Header -->
+  <header>
+    <h1>Jobnest <span>India</span></h1>
+    <div class="user-profile">👤 Guest User</div>
+  </header>
 
-            <form onsubmit="handleLogin(event)">
-                <div class="input-group">
-                    <label>Full Name / নাম:</label>
-                    <input type="text" id="userNameInput" placeholder="আপনার নাম লিখুন" required>
-                </div>
-                <div class="input-group">
-                    <label>Mobile / Email:</label>
-                    <input type="text" placeholder="ইমেল বা মোবাইল নম্বর" required>
-                </div>
-                <button type="submit" class="btn-login">Login to Portal</button>
-            </form>
-
-            <span class="skip-btn" onclick="closeLogin()">লগইন না করে সামনে যান (Skip)</span>
-        </div>
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Live Search Bar -->
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-box" placeholder="🔍 সার্চ করুন (যেমন: SSC, Driver, Graduate, Govt)..." onkeyup="filterJobs()">
     </div>
 
-    <!-- 2. MAIN WEBSITE CONTENT -->
-    <header>
-        <h1>Jobnest <span>India</span></h1>
-        <div class="user-profile" id="userDisplay">👤 Guest User</div>
-    </header>
-
-    <div class="container">
-        <!-- Search Bar -->
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search Jobs by title, company, or qualification..." onkeyup="filterJobs()">
-        </div>
-
-        <!-- Filter Categories -->
-        <div class="categories-scroll">
-            <button class="cat-btn active" onclick="filterCategory('all', this)">📢 All / Latest Jobs</button>
-            <button class="cat-btn" onclick="filterCategory('govt', this)">🏛️ Government Jobs</button>
-            <button class="cat-btn" onclick="filterCategory('private', this)">🏢 Private Jobs</button>
-            <button class="cat-btn" onclick="filterCategory('driver', this)">🚗 Driver Jobs</button>
-            <button class="cat-btn" onclick="filterCategory('iti', this)">🎓 ITI Jobs</button>
-            <button class="cat-btn" onclick="filterCategory('wfh', this)">💻 Work From Home</button>
-        </div>
-
-        <!-- Job Grid -->
-        <div class="job-grid" id="jobContainer">
-
-            <!-- Card 1 -->
-            <div class="job-card" data-category="govt">
-                <div>
-                    <div class="job-title">Job Name: SSC CGL Recruitment 2026</div>
-                    <div class="company-name">Company/Department: Staff Selection Commission</div>
-                    <div class="job-details">
-                        <div class="detail-item"><span class="detail-label">Salary:</span><span class="detail-value">₹35,400 - ₹1,12,400 / Month</span></div>
-                        <div class="detail-item"><span class="detail-label">Qualification:</span><span class="detail-value">Graduate Degree</span></div>
-                        <div class="detail-item"><span class="detail-label">Age Limit:</span><span class="detail-value">18 - 30 Years</span></div>
-                        <div class="detail-item"><span class="detail-label">Last Date:</span><span class="detail-value" style="color: #dc2626;">25th August 2026</span></div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="https://ssc.gov.in" target="_blank" class="btn btn-notification">📄 Official Notification</a>
-                    <a href="https://ssc.gov.in" target="_blank" class="btn btn-apply">🟢 Apply Now</a>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="job-card" data-category="driver">
-                <div>
-                    <div class="job-title">Job Name: Heavy Vehicle Driver</div>
-                    <div class="company-name">Company/Department: State Transport Corp</div>
-                    <div class="job-details">
-                        <div class="detail-item"><span class="detail-label">Salary:</span><span class="detail-value">₹22,000 / Month</span></div>
-                        <div class="detail-item"><span class="detail-label">Qualification:</span><span class="detail-value">10th Pass + HMV License</span></div>
-                        <div class="detail-item"><span class="detail-label">Age Limit:</span><span class="detail-value">21 - 38 Years</span></div>
-                        <div class="detail-item"><span class="detail-label">Last Date:</span><span class="detail-value" style="color: #dc2626;">18th August 2026</span></div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="#" target="_blank" class="btn btn-notification">📄 Official Notification</a>
-                    <a href="#" target="_blank" class="btn btn-apply">🟢 Apply Now</a>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="job-card" data-category="wfh private">
-                <div>
-                    <div class="job-title">Job Name: Customer Support Executive</div>
-                    <div class="company-name">Company/Department: Tech Mahindra</div>
-                    <div class="job-details">
-                        <div class="detail-item"><span class="detail-label">Salary:</span><span class="detail-value">₹25,000 / Month</span></div>
-                        <div class="detail-item"><span class="detail-label">Qualification:</span><span class="detail-value">12th Pass / Graduate</span></div>
-                        <div class="detail-item"><span class="detail-label">Age Limit:</span><span class="detail-value">18 - 35 Years</span></div>
-                        <div class="detail-item"><span class="detail-label">Last Date:</span><span class="detail-value" style="color: #dc2626;">Ongoing</span></div>
-                    </div>
-                </div>
-                <div class="card-actions">
-                    <a href="#" target="_blank" class="btn btn-notification">📄 Official Notification</a>
-                    <a href="#" target="_blank" class="btn btn-apply">🟢 Apply Now</a>
-                </div>
-            </div>
-
-        </div>
+    <!-- Category Filter Buttons -->
+    <div class="categories-scroll">
+      <button class="cat-btn active" onclick="filterCategory('all', this)">📢 All Jobs</button>
+      <button class="cat-btn" onclick="filterCategory('Govt', this)">🏛️ Govt Jobs</button>
+      <button class="cat-btn" onclick="filterCategory('10th', this)">📜 10th Pass</button>
+      <button class="cat-btn" onclick="filterCategory('Graduate', this)">🎓 Graduate</button>
+      <button class="cat-btn" onclick="filterCategory('saved', this)">⭐ Saved Jobs</button>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Jobnest India. All Rights Reserved.</p>
-    </footer>
+    <!-- Job Cards Grid -->
+    <div class="job-grid" id="jobGrid">
+      <!-- Jobs will load dynamically via JS -->
+    </div>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Login Logic
-        function handleLogin(event) {
-            event.preventDefault();
-            let name = document.getElementById('userNameInput').value;
-            if(name) {
-                document.getElementById('userDisplay').innerText = "👤 Welcome, " + name;
-            }
-            closeLogin();
+  </div>
+
+  <!-- Job Details Modal Pop-up -->
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal-card">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle" style="color:#003366; margin-bottom: 5px;"></h2>
+      <p id="modalCompany" style="color: #6b7280; font-weight:600; margin-bottom: 15px;"></p>
+      <hr style="margin-bottom: 15px; border: 0; border-top: 1px solid #eee;">
+      
+      <div id="modalBody" style="line-height: 1.6; font-size: 14px; margin-bottom: 20px;"></div>
+      
+      <a id="modalApplyBtn" href="#" target="_blank" class="btn btn-apply" style="display:block; text-align:center;">সরাসরি আবেদন করুন 🚀</a>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 Jobnest India - Find Your Dream Job
+  </footer>
+
+  <script>
+    // Sample Job Data
+    const jobs = [
+      {
+        id: 1,
+        title: "SSC CGL Recruitment 2026",
+        company: "Staff Selection Commission",
+        salary: "₹35,400 - ₹1,12,400 / Month",
+        qualification: "Graduate Degree",
+        age: "18 - 30 Years",
+        lastDate: "25th August 2026",
+        category: "Govt Graduate",
+        details: "কেন্দ্রীয় সরকারের বিভিন্ন মন্ত্রণালয় ও দপ্তরে বিশাল নিয়োগের বিজ্ঞপ্তি জারি হয়েছে। পরীক্ষার মাধ্যমে সরাসরি যোগ্য প্রার্থীদের বেছে নেওয়া হবে।"
+      },
+      {
+        id: 2,
+        title: "Heavy Vehicle Driver",
+        company: "State Transport Corp",
+        salary: "₹22,000 / Month",
+        qualification: "10th Pass + HMV License",
+        age: "21 - 38 Years",
+        lastDate: "18th August 2026",
+        category: "10th",
+        details: "রাজ্য পরিবহন নিগমে স্থায়ী বাস ও ভারী যানবাহন চালকের পদে আবেদন জমা নেওয়া শুরু হয়েছে। ড্রাইভিং টেস্টের মাধ্যমে নির্বাচন হবে।"
+      },
+      {
+        id: 3,
+        title: "Railway Group D Recruitment",
+        company: "Indian Railways",
+        salary: "₹19,900 - ₹63,200 / Month",
+        qualification: "10th Pass / ITI",
+        age: "18 - 33 Years",
+        lastDate: "10th September 2026",
+        category: "Govt 10th",
+        details: "ভারতীয় রেলওয়েতে ট্র্যাক মেইনটেইনার ও অ্যাসিস্ট্যান্ট পদে বিপুল পরিমাণ কর্মী নিয়োগের বিজ্ঞপ্তি প্রকাশিত হয়েছে।"
+      },
+      {
+        id: 4,
+        title: "Bank Probationary Officer (PO)",
+        company: "IBPS / State Bank",
+        salary: "₹48,480 / Month",
+        qualification: "Graduate Degree",
+        age: "20 - 30 Years",
+        lastDate: "05th September 2026",
+        category: "Govt Graduate",
+        details: "বিভিন্ন পাবলিক সেক্টর ব্যাংকে পিও পদে যোগ্য প্রার্থীদের কাছ থেকে অনলাইন আবেদনপত্র আহ্বান করা হচ্ছে।"
+      }
+    ];
+
+    let savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
+    let currentCategory = 'all';
+
+    // Render Jobs
+    function renderJobs(jobList) {
+      const jobGrid = document.getElementById('jobGrid');
+      jobGrid.innerHTML = '';
+
+      if (jobList.length === 0) {
+        jobGrid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#888; padding: 40px 0;">কোনো চাকরি পাওয়া যায়নি! 😞</p>`;
+        return;
+      }
+
+      jobList.forEach(job => {
+        const isSaved = savedJobIds.includes(job.id);
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
+          <button class="bookmark-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave(${job.id}, this)">★</button>
+          <div class="job-title">${job.title}</div>
+          <div class="company-name">${job.company}</div>
+          <div class="job-details">
+            <div class="detail-item"><span class="detail-label">Salary:</span><span class="detail-value">${job.salary}</span></div>
+            <div class="detail-item"><span class="detail-label">Qualification:</span><span class="detail-value">${job.qualification}</span></div>
+            <div class="detail-item"><span class="detail-label">Age Limit:</span><span class="detail-value">${job.age}</span></div>
+            <div class="detail-item"><span class="detail-label">Last Date:</span><span class="detail-value" style="color:#d97706;">${job.lastDate}</span></div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-details" onclick="openModal(${job.id})">📋 Details</button>
+            <button class="btn btn-apply" onclick="openModal(${job.id})">🟢 Apply Now</button>
+          </div>
+        `;
+        jobGrid.appendChild(card);
+      });
+    }
+
+    // Filter Logic
+    function filterJobs() {
+      const searchText = document.getElementById('searchInput').value.toLowerCase();
+      
+      const filtered = jobs.filter(job => {
+        const matchesSearch = job.title.toLowerCase().includes(searchText) || 
+                              job.company.toLowerCase().includes(searchText) || 
+                              job.qualification.toLowerCase().includes(searchText);
+
+        let matchesCat = true;
+        if (currentCategory === 'saved') {
+          matchesCat = savedJobIds.includes(job.id);
+        } else if (currentCategory !== 'all') {
+          matchesCat = job.category.includes(currentCategory);
         }
 
-        function closeLogin() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
+        return matchesSearch && matchesCat;
+      });
 
-        // Job Filtering Logic
-        let currentCategory = 'all';
+      renderJobs(filtered);
+    }
 
-        function filterCategory(category, element) {
-            currentCategory = category;
-            let buttons = document.querySelectorAll('.cat-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            filterJobs();
-        }
+    function filterCategory(category, btnElement) {
+      currentCategory = category;
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+      filterJobs();
+    }
 
-        function filterJobs() {
-            let searchInput = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.job-card');
+    // Bookmark / Save Job
+    function toggleSave(jobId, btn) {
+      if (savedJobIds.includes(jobId)) {
+        savedJobIds = savedJobIds.filter(id => id !== jobId);
+        btn.classList.remove('saved');
+      } else {
+        savedJobIds.push(jobId);
+        btn.classList.add('saved');
+      }
+      localStorage.setItem('savedJobs', JSON.stringify(savedJobIds));
+      if (currentCategory === 'saved') filterJobs();
+    }
 
-            cards.forEach(card => {
-                let category = card.getAttribute('data-category');
-                let cardText = card.innerText.toLowerCase();
+    // Modal Details Logic
+    function openModal(jobId) {
+      const job = jobs.find(j => j.id === jobId);
+      if (!job) return;
 
-                let categoryMatch = (currentCategory === 'all') || category.includes(currentCategory);
-                let searchMatch = cardText.includes(searchInput);
+      document.getElementById('modalTitle').innerText = job.title;
+      document.getElementById('modalCompany').innerText = job.company;
+      document.getElementById('modalBody').innerHTML = `
+        <p><strong>বেতন:</strong> ${job.salary}</p>
+        <p><strong>শিক্ষাগত যোগ্যতা:</strong> ${job.qualification}</p>
+        <p><strong>বয়স সীমা:</strong> ${job.age}</p>
+        <p><strong>আবেদনের শেষ তারিখ:</strong> ${job.lastDate}</p>
+        <br>
+        <p><strong>বিস্তারিত বিবরণ:</strong><br>${job.details}</p>
+      `;
+      document.getElementById('jobModal').style.display = 'flex';
+    }
 
-                if (categoryMatch && searchMatch) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
-    </script>
+    function closeModal() {
+      document.getElementById('jobModal').style.display = 'none';
+    }
+
+    // Initial Load
+    renderJobs(jobs);
+  </script>
 </body>
 </html>
