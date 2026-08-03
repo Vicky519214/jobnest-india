@@ -125,22 +125,55 @@
     © 2026 Jobnest India - Find Your Dream Job
   </footer>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <script>
+    // Your Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJbV-4t1OXn0ro-QRXE2ZL_RRUPxaR518",
+      authDomain: "jobnest-india.firebaseapp.com",
+      projectId: "jobnest-india",
+      storageBucket: "jobnest-india.firebasestorage.app",
+      messagingSenderId: "858790166184",
+      appId: "1:858790166184:web:681352a67cf4c0047bcc9d",
+      measurementId: "G-FYBTHBTYMC"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     let jobs = [];
     let savedJobIds = JSON.parse(localStorage.getItem('savedJobs')) || [];
     let currentCategory = 'all';
 
-    // Fetch jobs from jobs.json file
-    fetch('jobs.json')
-      .then(response => response.json())
-      .then(data => {
-        jobs = data;
+    // Fetch jobs directly from Firebase Firestore Database or fallback to local jobs.json
+    db.collection('jobs').get().then((snapshot) => {
+      if(!snapshot.empty) {
+        jobs = [];
+        snapshot.forEach(doc => {
+          jobs.push({ id: doc.id, ...doc.data() });
+        });
         renderJobs(jobs);
-      })
-      .catch(err => {
-        console.error("Jobs load error:", err);
-        document.getElementById('jobGrid').innerHTML = '<p style="grid-column:1/-1; text-align:center;">ডাটা লোড করতে সমস্যা হচ্ছে!</p>';
-      });
+      } else {
+        loadBackupJobs();
+      }
+    }).catch(err => {
+      console.log("Firebase fetch error, loading jobs.json backup:", err);
+      loadBackupJobs();
+    });
+
+    function loadBackupJobs() {
+      fetch('jobs.json')
+        .then(response => response.json())
+        .then(data => {
+          jobs = data;
+          renderJobs(jobs);
+        })
+        .catch(err => console.error("Data load error:", err));
+    }
 
     function renderJobs(jobList) {
       const jobGrid = document.getElementById('jobGrid');
@@ -152,11 +185,11 @@
       }
 
       jobList.forEach(job => {
-        const isSaved = savedJobIds.includes(job.id);
+        const isSaved = savedJobIds.includes(String(job.id));
         const card = document.createElement('div');
         card.className = 'job-card';
         card.innerHTML = `
-          <button class="bookmark-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave(${job.id}, this)">★</button>
+          <button class="bookmark-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave('${job.id}', this)">★</button>
           <div class="job-title">${job.title}</div>
           <div class="company-name">${job.company}</div>
           <div class="job-details">
@@ -166,8 +199,8 @@
             <div class="detail-item"><span class="detail-label">Last Date:</span><span class="detail-value" style="color:#d97706;">${job.lastDate}</span></div>
           </div>
           <div class="card-actions">
-            <button class="btn btn-details" onclick="openModal(${job.id})">📋 Details</button>
-            <button class="btn btn-apply" onclick="openModal(${job.id})">🟢 Apply Now</button>
+            <button class="btn btn-details" onclick="openModal('${job.id}')">📋 Details</button>
+            <a class="btn btn-apply" href="${job.applyUrl || '#'}" target="_blank">🟢 Apply Now</a>
           </div>
         `;
         jobGrid.appendChild(card);
@@ -179,8 +212,8 @@
       const filtered = jobs.filter(job => {
         const matchesSearch = job.title.toLowerCase().includes(searchText) || job.company.toLowerCase().includes(searchText) || job.qualification.toLowerCase().includes(searchText);
         let matchesCat = true;
-        if (currentCategory === 'saved') matchesCat = savedJobIds.includes(job.id);
-        else if (currentCategory !== 'all') matchesCat = job.category.includes(currentCategory);
+        if (currentCategory === 'saved') matchesCat = savedJobIds.includes(String(job.id));
+        else if (currentCategory !== 'all') matchesCat = (job.category || '').includes(currentCategory);
         return matchesSearch && matchesCat;
       });
       renderJobs(filtered);
@@ -194,11 +227,12 @@
     }
 
     function toggleSave(jobId, btn) {
-      if (savedJobIds.includes(jobId)) {
-        savedJobIds = savedJobIds.filter(id => id !== jobId);
+      const idStr = String(jobId);
+      if (savedJobIds.includes(idStr)) {
+        savedJobIds = savedJobIds.filter(id => id !== idStr);
         btn.classList.remove('saved');
       } else {
-        savedJobIds.push(jobId);
+        savedJobIds.push(idStr);
         btn.classList.add('saved');
       }
       localStorage.setItem('savedJobs', JSON.stringify(savedJobIds));
@@ -206,7 +240,7 @@
     }
 
     function openModal(jobId) {
-      const job = jobs.find(j => j.id === jobId);
+      const job = jobs.find(j => String(j.id) === String(jobId));
       if (!job) return;
       document.getElementById('modalTitle').innerText = job.title;
       document.getElementById('modalCompany').innerText = job.company;
