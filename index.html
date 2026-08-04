@@ -231,21 +231,24 @@
       // Render Jobs
       jobsList.innerHTML = jobItems.length ? jobItems.map(j => `
         <li>
-          <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
+     <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
           <span class="date">${j.lastDate ? 'Last Date: ' + j.lastDate : 'Apply Online'}</span>
+        
         </li>
       `).join('') : '<li><a href="#">No jobs available</a></li>';
 
       // Render Admit Cards
       admitList.innerHTML = admitItems.length ? admitItems.map(j => `
         <li>
-          <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
+          <a href="#" onclick="openModal('${j.id}'); return false;">${j.title}</a>
+          
         </li>
       `).join('') : '<li><a href="#">SSC CGL Admit Card 2026</a></li><li><a href="#">RRB NTPC Hall Ticket</a></li>';
 
       // Render Results
       resultList.innerHTML = resultItems.length ? resultItems.map(j => `
-        <li>
+        <a href="#" onclick="openModal('${j.id}'); return false;">${j.title}</a>
+        
           <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
         </li>
       `).join('') : '<li><a href="#">UPSC Civil Services Result</a></li><li><a href="#">IBPS PO Final Result</a></li>';
