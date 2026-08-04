@@ -1,66 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - JobNest India</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; max-width: 600px; margin: auto; }
-    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h2 { color: #003366; text-align: center; }
-    label { font-weight: bold; display: block; margin-top: 10px; }
-    input, select, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-    button { background: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; }
-    button:hover { background: #218838; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - JobNest India</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; max-width: 600px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-top: 4px solid #ab0000; }
+        h2 { color: #ab0000; text-align: center; margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-top: 12px; }
+        input, select, textarea, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        textarea { height: 100px; resize: vertical; }
+        button { background: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        button:hover { background: #218838; }
+        .back-link { display: inline-block; margin-bottom: 15px; color: #0056b3; text-decoration: none; font-weight: bold; }
+        #status { margin-top: 15px; text-align: center; font-weight: bold; }
+    </style>
 </head>
 <body>
 
+<a href="index.html" class="back-link">⬅️ Back to Home</a>
+
 <div class="card">
-  <h2>📋 Add New Job</h2>
-  <form id="jobForm">
-    <label>Job Title:</label>
-    <input type="text" id="title" required placeholder="e.g. Railway ALP Recruitment">
+    <h2>📝 Add New Job / Post</h2>
+    <form id="jobForm">
+        <label>Job Title:</label>
+        <input type="text" id="title" required placeholder="e.g. UPSSSC PET Online Form 2026">
 
-    <label>Company/Department:</label>
-    <input type="text" id="company" required placeholder="e.g. Indian Railways">
+        <label>Category:</label>
+        <select id="category" required>
+            <option value="job">Latest Job</option>
+            <option value="admit">Admit Card</option>
+            <option value="result">Result</option>
+        </select>
 
-    <label>Salary:</label>
-    <input type="text" id="salary" placeholder="e.g. ₹19,900 - ₹63,200">
+        <label>Last Date:</label>
+        <input type="text" id="lastDate" placeholder="e.g. 01/09/2026">
 
-    <label>Qualification:</label>
-    <input type="text" id="qualification" placeholder="e.g. 10th / ITI">
+        <label>Official Apply URL:</label>
+        <input type="url" id="applyUrl" required placeholder="https://example.com">
 
-    <label>Age Limit:</label>
-    <input type="text" id="age" placeholder="e.g. 18 - 30 Years">
+        <!-- 📝 Description Box -->
+        <label>Description (বিস্তারিত বিবরণ):</label>
+        <textarea id="description" placeholder="Age limit, fees, qualification, and details..."></textarea>
 
-    <label>Last Date:</label>
-    <input type="text" id="lastDate" placeholder="e.g. 31/12/2026">
-
-    <label>Category:</label>
-    <select id="category">
-      <option value="railway">Railway</option>
-      <option value="ssc">SSC</option>
-      <option value="banking">Banking</option>
-      <option value="defence">Defence</option>
-      <option value="state">State Govt</option>
-    </select>
-
-    <label>Official Apply URL:</label>
-    <input type="url" id="applyUrl" required placeholder="https://example.com">
-
-    <button type="submit">🚀 Publish Job</button>
-  </form>
+        <button type="submit">🚀 Publish Job</button>
+    </form>
+    <p id="status"></p>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // আপনার Firebase Config (index.html থেকে ফায়ারবেস কনফিগ নিয়ে এখানে বসাবেন)
-    const firebaseConfig = {
-    apiKey: "AIzaSyDummyKeyForJobNestIndia12345",
+  // আপনার index.html থেকে নেওয়া সঠিক ফায়ারবেস কনফিগ
+  const firebaseConfig = {
+    apiKey: "AIzaSyDummyKeyForJobNestIndia12345", // আপনার আসল apiKey দিয়ে এটি বদলে নিন
     authDomain: "jobnest-india.firebaseapp.com",
     projectId: "jobnest-india",
     storageBucket: "jobnest-india.appspot.com",
@@ -68,33 +63,34 @@
     appId: "1:123456789012:web:abcdef123456"
   };
 
-
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
   document.getElementById('jobForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    try {
-      await addDoc(collection(db, "jobs"), {
-        title: document.getElementById('title').value,
-        company: document.getElementById('company').value,
-        salary: document.getElementById('salary').value,
-        qualification: document.getElementById('qualification').value,
-        age: document.getElementById('age').value,
-        lastDate: document.getElementById('lastDate').value,
-        category: document.getElementById('category').value,
-        applyUrl: document.getElementById('applyUrl').value,
-        createdAt: new Date()
-      });
-      alert("🎉 Job Added Successfully!");
-      document.getElementById('jobForm').reset();
-    } catch (error) {
-      alert("Error adding job: " + error.message);
-    }
+      e.preventDefault();
+      const status = document.getElementById('status');
+      status.style.color = "blue";
+      status.innerText = "Publishing post...";
+
+      try {
+          await addDoc(collection(db, "jobs"), {
+              title: document.getElementById('title').value,
+              type: document.getElementById('category').value,
+              lastDate: document.getElementById('lastDate').value,
+              applyUrl: document.getElementById('applyUrl').value,
+              description: document.getElementById('description').value,
+              createdAt: serverTimestamp()
+          });
+          status.style.color = "green";
+          status.innerText = "✅ Post Published Successfully!";
+          document.getElementById('jobForm').reset();
+      } catch (error) {
+          console.error("Error: ", error);
+          status.style.color = "red";
+          status.innerText = "❌ Error publishing post. Check Firebase config!";
+      }
   });
 </script>
 
 </body>
 </html>
-
