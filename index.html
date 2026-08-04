@@ -200,7 +200,9 @@
           </div>
           <div class="card-actions">
             <button class="btn btn-details" onclick="openModal('${job.id}')">📋 Details</button>
-            <a class="btn btn-apply" href="${job.applyUrl || '#'}" target="_blank">🟢 Apply Now</a>
+             <a href="${(job.applyUrl || '#').replace(/[\[\]]/g, '').trim()}" target="_blank" rel="noopener noreferrer" class="btn btn-apply">🟢 Apply Now</a>
+       
+ 
           </div>
         `;
         jobGrid.appendChild(card);
