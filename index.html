@@ -1,293 +1,113 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jobnest India - Sarkari Result & Latest Government Jobs</title>
+    <title>Admin Panel - JobNest India</title>
     <style>
-        :root {
-            --primary: #800000; /* Sarkari Result Red Color */
-            --primary-dark: #600000;
-            --header-bg: #ab0000;
-            --bg-color: #f4f4f4;
-            --card-bg: #ffffff;
-            --text-color: #222222;
-            --border-color: #cccccc;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
-
-        /* Top Header */
-        header { background: var(--header-bg); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid #ffcc00; }
-        header h1 { font-size: 28px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        header p { font-size: 14px; color: #ffeb3b; margin-top: 5px; font-weight: bold; }
-
-        /* Navigation Menu */
-        nav { background: #333; display: flex; justify-content: center; flex-wrap: wrap; gap: 2px; }
-        nav a { color: white; padding: 12px 18px; text-decoration: none; font-size: 14px; font-weight: bold; text-transform: uppercase; display: inline-block; transition: background 0.2s; }
-        nav a:hover, nav a.active { background: var(--primary); }
-
-        /* Marquee / Live Alert Box */
-        .marquee-box { background: #fff; border: 1px solid var(--border-color); margin: 15px auto 5px auto; max-width: 1100px; padding: 8px 10px; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .marquee-title { background: var(--primary); color: white; padding: 4px 10px; font-size: 12px; font-weight: bold; border-radius: 3px; white-space: nowrap; margin-right: 10px; }
-
-        .container { max-width: 1100px; margin: 15px auto; padding: 0 10px; flex: 1; width: 100%; }
-
-        /* Search Bar */
-        .search-container { margin-bottom: 20px; text-align: center; }
-        .search-box { width: 100%; max-width: 600px; padding: 12px 15px; border-radius: 4px; border: 2px solid var(--primary); font-size: 15px; outline: none; }
-
-        /* 3-Column Grid Layout (Sarkari Result Style) */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .col-box { background: var(--card-bg); border: 1px solid var(--border-color); border-top: 4px solid var(--primary); border-radius: 4px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .col-header { background: var(--primary); color: white; font-size: 18px; font-weight: bold; text-align: center; padding: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .col-list { list-style: none; padding: 0; margin: 0; }
-        .col-list li { border-bottom: 1px solid #eeeeee; padding: 10px 12px; font-size: 14px; line-height: 1.4; }
-        .col-list li:hover { background-color: #fcf8e3; }
-        .col-list a { color: #0000cc; text-decoration: none; font-weight: bold; display: block; }
-        .col-list a:hover { text-decoration: underline; color: #ff0000; }
-        .col-list span.date { font-size: 11px; color: #777; display: block; margin-top: 2px; }
-
-        /* Rating Section */
-        .rating-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 4px; text-align: center; margin-top: 20px; }
-        .stars { font-size: 24px; cursor: pointer; color: #ccc; margin: 5px 0; }
-        .stars span:hover, .stars span.active { color: #f59e0b; }
-
-        /* Footer */
-        footer { background: #222; color: #ccc; padding: 25px 10px; text-align: center; margin-top: 30px; font-size: 13px; border-top: 4px solid var(--primary); }
-        .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 12px; }
-        .footer-links a { color: #ffeb3b; text-decoration: none; cursor: pointer; font-weight: bold; }
-        .footer-links a:hover { text-decoration: underline; }
-
-        /* Modal / Popup Box */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100000; justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: var(--card-bg); color: var(--text-color); padding: 20px; border-radius: 6px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; border-top: 5px solid var(--primary); }
-        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #666; font-weight: bold; }
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; max-width: 600px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-top: 4px solid #ab0000; }
+        h2 { color: #ab0000; text-align: center; margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-top: 12px; }
+        input, select, textarea, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        textarea { height: 100px; resize: vertical; }
+        button { background: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        button:hover { background: #218838; }
+        .back-link { display: inline-block; margin-bottom: 15px; color: #0056b3; text-decoration: none; font-weight: bold; }
+        #status { margin-top: 15px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
-  <!-- 🌟 Splash Screen Start -->
-  <div id="splash-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ab0000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; color: white; text-align: center;">
-    <div style="width: 80px; height: 80px; background: #ffffff; color: #ab0000; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 40px; margin-bottom: 15px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">💼</div>
-    <h1 style="font-size: 32px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;">Jobnest India</h1>
-    <p style="color: #ffeb3b; font-size: 15px; margin-bottom: 30px; font-weight: bold;">Sarkari Result & Recruitment Portal</p>
+<a href="index.html" class="back-link">⬅️ Back to Home</a>
 
-    <div style="display: flex; gap: 15px;">
-      <button onclick="closeSplash()" style="padding: 10px 25px; border-radius: 4px; border: 2px solid white; background: transparent; color: white; font-weight: bold; cursor: pointer; text-transform: uppercase;">Skip ⏩</button>
-      <a href="admin.html" style="padding: 10px 25px; border-radius: 4px; background: #ffcc00; color: #000; text-decoration: none; font-weight: bold; text-transform: uppercase;">Login 🔐</a>
-    </div>
-  </div>
+<div class="card">
+    <h2>📝 Add New Job / Post</h2>
+    <form id="jobForm">
+        <label>Job Title:</label>
+        <input type="text" id="title" required placeholder="e.g. Railway ALP Recruitment">
 
-  <script>
-    function closeSplash() {
-      const splash = document.getElementById('splash-screen');
-      if(splash) splash.style.display = 'none';
-    }
-    setTimeout(closeSplash, 3000);
-  </script>
-  <!-- 🌟 Splash Screen End -->
+        <label>Company/Department:</label>
+        <input type="text" id="company" placeholder="e.g. Indian Railways">
 
-  <!-- Header -->
-  <header>
-    <h1>Jobnest India</h1>
-    <p>WWW.JOBNESTINDIA.COM - Official Job & Result Portal</p>
-  </header>
+        <label>Salary:</label>
+        <input type="text" id="salary" placeholder="e.g. ₹19,900 - ₹63,200">
 
-  <!-- Navigation Bar -->
-  <nav>
-    <a href="#" class="active">Home</a>
-    <a onclick="openModal('about')">About Us</a>
-    <a href="admin.html">Admin Panel</a>
-    <a onclick="openModal('contact')">Contact Us</a>
-  </nav>
+        <label>Qualification:</label>
+        <input type="text" id="qualification" placeholder="e.g. 10th / ITI">
 
-  <!-- Marquee Alert -->
-  <div class="marquee-box">
-    <div class="marquee-title">LIVE UPDATES</div>
-    <marquee style="font-size: 14px; font-weight: bold; color: #ab0000;">
-      Welcome to Jobnest India! Check Latest Railway Recruitment, SSC Admit Cards, Banking Results and Government Notifications here.
-    </marquee>
-  </div>
+        <label>Age Limit:</label>
+        <input type="text" id="age" placeholder="e.g. 18 - 30 Years">
 
-  <!-- Main Container -->
-  <div class="container">
-    
-    <!-- Search Box -->
-    <div class="search-container">
-      <input type="text" id="search-input" class="search-box" placeholder="🔍 Search Job Title, Result, or Admit Card..." onkeyup="filterJobs()">
-    </div>
+        <label>Last Date:</label>
+        <input type="text" id="lastDate" placeholder="e.g. 31/12/2026">
 
-    <!-- Sarkari Result 3-Column Layout -->
-    <div class="grid-3">
-      
-      <!-- Result Column -->
-      <div class="col-box">
-        <div class="col-header" style="background: #0056b3;">Result</div>
-        <ul class="col-list" id="result-list">
-          <li><a href="#">Loading Results...</a></li>
-        </ul>
-      </div>
+        <label>Category:</label>
+        <select id="category" required>
+            <option value="job">Latest Job</option>
+            <option value="admit">Admit Card</option>
+            <option value="result">Result</option>
+            <option value="railway">Railway</option>
+            <option value="ssc">SSC</option>
+            <option value="banking">Banking</option>
+            <option value="defence">Defence</option>
+            <option value="state">State Govt</option>
+        </select>
 
-      <!-- Admit Card Column -->
-      <div class="col-box">
-        <div class="col-header" style="background: #28a745;">Admit Card</div>
-        <ul class="col-list" id="admit-list">
-          <li><a href="#">Loading Admit Cards...</a></li>
-        </ul>
-      </div>
+        <label>Official Apply URL:</label>
+        <input type="url" id="applyUrl" required placeholder="https://example.com">
 
-      <!-- Latest Jobs Column -->
-      <div class="col-box">
-        <div class="col-header" style="background: #ab0000;">Latest Jobs</div>
-        <ul class="col-list" id="latest-jobs-list">
-          <li><a href="#">Loading Jobs...</a></li>
-        </ul>
-      </div>
+        <!-- 📝 নতুন যুক্ত করা Description বক্স -->
+        <label>Description (বিস্তারিত বিবরণ):</label>
+        <textarea id="description" placeholder="অন্যান্য বিবরণ বা তথ্য এখানে লিখুন..."></textarea>
 
-    </div>
+        <button type="submit">🚀 Publish Job</button>
+    </form>
+    <p id="status"></p>
+</div>
 
-    <!-- Rating Section -->
-    <div class="rating-box">
-      <h3 style="color: var(--primary);">User Rating & Feedback ⭐</h3>
-      <p style="font-size: 13px; color: #555; margin-top: 3px;">Rate our portal experience:</p>
-      <div class="stars" id="star-container">
-        <span onclick="rate(1)">★</span>
-        <span onclick="rate(2)">★</span>
-        <span onclick="rate(3)">★</span>
-        <span onclick="rate(4)">★</span>
-        <span onclick="rate(5)">★</span>
-      </div>
-      <p id="rating-msg" style="font-size: 13px; color: #28a745; font-weight: bold;"></p>
-    </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  </div>
+  const firebaseConfig = {
+    authDomain: "jobnest-india.firebaseapp.com",
+    projectId: "jobnest-india",
+    storageBucket: "jobnest-india.appspot.com"
+  };
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-links">
-      <a onclick="openModal('about')">About Us</a> |
-      <a onclick="openModal('privacy')">Privacy Policy</a> |
-      <a onclick="openModal('terms')">Terms & Conditions</a> |
-      <a onclick="openModal('disclaimer')">Disclaimer</a> |
-      <a onclick="openModal('contact')">Contact Us</a>
-    </div>
-    <p>© 2026 Jobnest India. All Rights Reserved.</p>
-    <p style="font-size: 12px; margin-top: 5px; color: #aaa;">📧 Official Email: support@jobnestindia.com</p>
-  </footer>
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-  <!-- Info Modal Pop-up -->
-  <div class="modal" id="info-modal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal()">&times;</span>
-      <h2 id="modal-title" style="margin-bottom: 12px; color: var(--primary);"></h2>
-      <div id="modal-body" style="font-size: 14px; line-height: 1.6; color: #333;"></div>
-    </div>
-  </div>
+  document.getElementById('jobForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = document.getElementById('status');
+      status.style.color = "blue";
+      status.innerText = "Publishing post...";
 
-  <!-- Firebase Integration -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSy...",
-      authDomain: "jobnest-india.firebaseapp.com",
-      projectId: "jobnest-india",
-      storageBucket: "jobnest-india.appspot.com",
-      messagingSenderId: "1000000000",
-      appId: "1:1000000000:web:abcdef123456"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    let allJobs = [];
-
-    async function fetchJobs() {
       try {
-        const querySnapshot = await getDocs(collection(db, "jobs"));
-        allJobs = [];
-        querySnapshot.forEach((doc) => {
-          allJobs.push({ id: doc.id, ...doc.data() });
-        });
-        renderJobs(allJobs);
+          await addDoc(collection(db, "jobs"), {
+              title: document.getElementById('title').value,
+              company: document.getElementById('company').value,
+              salary: document.getElementById('salary').value,
+              qualification: document.getElementById('qualification').value,
+              age: document.getElementById('age').value,
+              lastDate: document.getElementById('lastDate').value,
+              type: document.getElementById('category').value,
+              applyUrl: document.getElementById('applyUrl').value,
+              description: document.getElementById('description').value,
+              createdAt: serverTimestamp()
+          });
+          status.style.color = "green";
+          status.innerText = "✅ Post Published Successfully!";
+          document.getElementById('jobForm').reset();
       } catch (error) {
-        console.error("Error loading data: ", error);
+          console.error("Error: ", error);
+          status.style.color = "red";
+          status.innerText = "❌ Error publishing post. Try again!";
       }
-    }
+  });
+</script>
 
-    function renderJobs(jobs) {
-      const jobsList = document.getElementById('latest-jobs-list');
-      const admitList = document.getElementById('admit-list');
-      const resultList = document.getElementById('result-list');
-
-      // Filter Data by Category/Type
-      const jobItems = jobs.filter(j => !j.type || j.type === 'job' || j.category !== 'Result' && j.category !== 'Admit Card');
-      const admitItems = jobs.filter(j => j.type === 'admit' || j.category === 'Admit Card');
-      const resultItems = jobs.filter(j => j.type === 'result' || j.category === 'Result');
-
-      // Render Jobs
-      jobsList.innerHTML = jobItems.length ? jobItems.map(j => `
-        <li>
-          <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
-          <span class="date">${j.lastDate ? 'Last Date: ' + j.lastDate : 'Apply Online'}</span>
-        </li>
-      `).join('') : '<li><a href="#">No jobs available</a></li>';
-
-      // Render Admit Cards
-      admitList.innerHTML = admitItems.length ? admitItems.map(j => `
-        <li>
-          <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
-        </li>
-      `).join('') : '<li><a href="#">SSC CGL Admit Card 2026</a></li><li><a href="#">RRB NTPC Hall Ticket</a></li>';
-
-      // Render Results
-      resultList.innerHTML = resultItems.length ? resultItems.map(j => `
-        <li>
-          <a href="${j.applyUrl || '#'}" target="_blank">${j.title}</a>
-        </li>
-      `).join('') : '<li><a href="#">UPSC Civil Services Result</a></li><li><a href="#">IBPS PO Final Result</a></li>';
-    }
-
-    window.filterJobs = function() {
-      const searchTerm = document.getElementById('search-input').value.toLowerCase();
-      const filtered = allJobs.filter(job => job.title && job.title.toLowerCase().includes(searchTerm));
-      renderJobs(filtered);
-    };
-
-    fetchJobs();
-  </script>
-
-  <!-- Modal and Star Script -->
-  <script>
-    function rate(stars) {
-      const spans = document.querySelectorAll('#star-container span');
-      spans.forEach((s, idx) => {
-        if(idx < stars) s.classList.add('active');
-        else s.classList.remove('active');
-      });
-      document.getElementById('rating-msg').innerText = `Thank you for rating us ${stars}/5 Stars! 🎉`;
-    }
-
-    const pages = {
-      about: { title: "About Jobnest India", content: "Jobnest India is a premier educational and career portal designed to provide fast, reliable government job notifications, admit cards, and recruitment exam results across India." },
-      privacy: { title: "Privacy Policy", content: "Your privacy is important to us. Jobnest India does not store personal credentials or share sensitive data. All links redirect to official recruitment websites." },
-      terms: { title: "Terms & Conditions", content: "Information provided on Jobnest India is for informational purposes only. Please verify details with original official notifications before applying." },
-      disclaimer: { title: "Disclaimer", content: "Jobnest India is an independent news and updates portal and is NOT affiliated with any government organization." },
-      contact: { title: "Contact Us", content: "If you have questions or business inquiries, reach out to us:<br><br><b>📧 Email: support@jobnestindia.com</b>" }
-    };
-
-    function openModal(key) {
-      document.getElementById('modal-title').innerText = pages[key].title;
-      document.getElementById('modal-body').innerHTML = pages[key].content;
-      document.getElementById('info-modal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('info-modal').style.display = 'none';
-    }
-  </script>
 </body>
 </html>
