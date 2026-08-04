@@ -1,113 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - JobNest India</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; max-width: 600px; margin: auto; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-top: 4px solid #ab0000; }
-        h2 { color: #ab0000; text-align: center; margin-bottom: 20px; }
-        label { font-weight: bold; display: block; margin-top: 12px; }
-        input, select, textarea, button { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        textarea { height: 100px; resize: vertical; }
-        button { background: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
-        button:hover { background: #218838; }
-        .back-link { display: inline-block; margin-bottom: 15px; color: #0056b3; text-decoration: none; font-weight: bold; }
-        #status { margin-top: 15px; text-align: center; font-weight: bold; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | JobIndia</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<a href="index.html" class="back-link">⬅️ Back to Home</a>
+<header>
+<h1>🛠 JobIndia Admin Panel</h1>
 
-<div class="card">
-    <h2>📝 Add New Job / Post</h2>
-    <form id="jobForm">
-        <label>Job Title:</label>
-        <input type="text" id="title" required placeholder="e.g. Railway ALP Recruitment">
+<nav>
+<a href="index.html">Home</a>
+<a href="jobs.html">Jobs</a>
+<a href="results.html">Results</a>
+<a href="admit-card.html">Admit Card</a>
+<a href="admin.html" class="active">Admin</a>
+</nav>
 
-        <label>Company/Department:</label>
-        <input type="text" id="company" placeholder="e.g. Indian Railways">
+</header>
 
-        <label>Salary:</label>
-        <input type="text" id="salary" placeholder="e.g. ₹19,900 - ₹63,200">
+<section class="page-title">
+<h2>Add New Job</h2>
+<p>Publish new job notifications.</p>
+</section>
 
-        <label>Qualification:</label>
-        <input type="text" id="qualification" placeholder="e.g. 10th / ITI">
+<section class="resume-form">
 
-        <label>Age Limit:</label>
-        <input type="text" id="age" placeholder="e.g. 18 - 30 Years">
+<form>
 
-        <label>Last Date:</label>
-        <input type="text" id="lastDate" placeholder="e.g. 31/12/2026">
+<input type="text" placeholder="Job Title" required>
 
-        <label>Category:</label>
-        <select id="category" required>
-            <option value="job">Latest Job</option>
-            <option value="admit">Admit Card</option>
-            <option value="result">Result</option>
-            <option value="railway">Railway</option>
-            <option value="ssc">SSC</option>
-            <option value="banking">Banking</option>
-            <option value="defence">Defence</option>
-            <option value="state">State Govt</option>
-        </select>
+<input type="text" placeholder="Organization" required>
 
-        <label>Official Apply URL:</label>
-        <input type="url" id="applyUrl" required placeholder="https://example.com">
+<input type="text" placeholder="Location" required>
 
-        <!-- 📝 নতুন যুক্ত করা Description বক্স -->
-        <label>Description (বিস্তারিত বিবরণ):</label>
-        <textarea id="description" placeholder="অন্যান্য বিবরণ বা তথ্য এখানে লিখুন..."></textarea>
+<input type="text" placeholder="Qualification">
 
-        <button type="submit">🚀 Publish Job</button>
-    </form>
-    <p id="status"></p>
+<input type="text" placeholder="Salary">
+
+<input type="text" placeholder="Vacancy">
+
+<input type="date">
+
+<input type="url" placeholder="Official Apply Link">
+
+<textarea rows="6" placeholder="Job Description"></textarea>
+
+<button type="submit" class="btn">Publish Job</button>
+
+</form>
+
+</section>
+
+<section class="job-list">
+
+<div class="job-card">
+<h2>📊 Dashboard</h2>
+
+<p>👥 Users : 0</p>
+<p>💼 Jobs : 0</p>
+<p>📋 Results : 0</p>
+<p>🎫 Admit Cards : 0</p>
+<p>🎓 Scholarships : 0</p>
+
 </div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<div class="job-card">
 
-  const firebaseConfig = {
-    authDomain: "jobnest-india.firebaseapp.com",
-    projectId: "jobnest-india",
-    storageBucket: "jobnest-india.appspot.com"
-  };
+<h2>⚙ Quick Actions</h2>
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+<a href="jobs.html" class="btn">Manage Jobs</a><br><br>
 
-  document.getElementById('jobForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const status = document.getElementById('status');
-      status.style.color = "blue";
-      status.innerText = "Publishing post...";
+<a href="results.html" class="btn">Manage Results</a><br><br>
 
-      try {
-          await addDoc(collection(db, "jobs"), {
-              title: document.getElementById('title').value,
-              company: document.getElementById('company').value,
-              salary: document.getElementById('salary').value,
-              qualification: document.getElementById('qualification').value,
-              age: document.getElementById('age').value,
-              lastDate: document.getElementById('lastDate').value,
-              type: document.getElementById('category').value,
-              applyUrl: document.getElementById('applyUrl').value,
-              description: document.getElementById('description').value,
-              createdAt: serverTimestamp()
-          });
-          status.style.color = "green";
-          status.innerText = "✅ Post Published Successfully!";
-          document.getElementById('jobForm').reset();
-      } catch (error) {
-          console.error("Error: ", error);
-          status.style.color = "red";
-          status.innerText = "❌ Error publishing post. Try again!";
-      }
-  });
-</script>
+<a href="admit-card.html" class="btn">Manage Admit Cards</a><br><br>
+
+<a href="scholarship.html" class="btn">Manage Scholarships</a>
+
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 JobIndia | Admin Panel</p>
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 </html>
