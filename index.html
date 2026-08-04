@@ -1,222 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jobnest India</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobNest India - Career & Education Portal</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:#f4f7fb;
-color:#222;
-}
-
-header{
-background:#0d6efd;
-color:#fff;
-padding:18px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-}
-
-.logo{
-font-size:28px;
-font-weight:700;
-}
-
-nav a{
-color:#fff;
-text-decoration:none;
-margin-left:20px;
-font-weight:500;
-}
-
-.hero{
-padding:50px 20px;
-text-align:center;
-background:#fff;
-}
-
-.hero h1{
-font-size:40px;
-margin-bottom:10px;
-}
-
-.hero p{
-color:#666;
-margin-bottom:25px;
-}
-
-#searchInput{
-width:90%;
-max-width:600px;
-padding:14px;
-font-size:16px;
-border-radius:8px;
-border:1px solid #ddd;
-outline:none;
-}
-
-.container{
-width:95%;
-max-width:1300px;
-margin:30px auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:20px;
-}
-
-.card{
-background:#fff;
-border-radius:10px;
-padding:20px;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-.card h2{
-margin-bottom:15px;
-color:#0d6efd;
-}
-
-.job-item{
-padding:12px;
-margin-bottom:10px;
-background:#f8f9fa;
-border-radius:6px;
-cursor:pointer;
-transition:.3s;
-}
-
-.job-item:hover{
-background:#e9f2ff;
-}
-
-footer{
-margin-top:40px;
-padding:20px;
-text-align:center;
-background:#0d6efd;
-color:#fff;
-}
-
-@media(max-width:768px){
-
-header{
-flex-direction:column;
-}
-
-nav{
-margin-top:10px;
-}
-
-.hero h1{
-font-size:28px;
-}
-
-}
-</style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
+    <!-- Header -->
+    <header>
+        <h1>JobNest India</h1>
+        <p>Find Government Jobs, Private Jobs, Results, Admit Card & More</p>
+    </header>
 
-<div class="logo">
-Jobnest India
-</div>
+    <!-- Navigation -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Govt Jobs</a>
+        <a href="#">Private Jobs</a>
+        <a href="#">Results</a>
+        <a href="#">Admit Card</a>
+        <a href="#">Scholarship</a>
+        <a href="#">Contact</a>
+    </nav>
 
-<nav>
-<a href="#">Home</a>
-<a href="#">Latest Jobs</a>
-<a href="#">Admit Card</a>
-<a href="#">Results</a>
-<a href="#">Contact</a>
-</nav>
+    <!-- Hero Section -->
+    <section>
+        <h2>Welcome to JobNest India</h2>
+        <p>Latest Government Jobs, Private Jobs, Results, Admit Cards, Scholarships and Career Updates.</p>
+        <button>Explore Jobs</button>
+    </section>
 
-</header>
+    <!-- Latest Jobs -->
+    <section>
+        <h2>Latest Jobs</h2>
 
-<section class="hero">
+        <div>
+            <h3>SSC CGL 2026 Recruitment</h3>
+            <p>Qualification: Graduate</p>
+            <button>Apply Now</button>
+        </div>
 
-<h1>Find Your Dream Job</h1>
+        <div>
+            <h3>Indian Railway Recruitment</h3>
+            <p>Qualification: 10th / 12th / ITI</p>
+            <button>Apply Now</button>
+        </div>
 
-<p>Latest Government & Private Jobs, Admit Cards and Results</p>
+        <div>
+            <h3>Bank PO Recruitment</h3>
+            <p>Qualification: Graduate</p>
+            <button>Apply Now</button>
+        </div>
+    </section>
 
-<input
-type="text"
-id="searchInput"
-placeholder="Search jobs...">
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 JobNest India. All Rights Reserved.</p>
+    </footer>
 
-</section>
+    <script src="script.js"></script>
 
-<div class="container">
-
-<div class="card">
-
-<h2>Latest Jobs</h2>
-
-<div id="latestJobs">
-
-<div class="job-item">
-SSC CGL 2026 Recruitment
-</div>
-
-<div class="job-item">
-Railway Group D 2026
-</div>
-
-<div class="job-item">
-Indian Army Agniveer
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Admit Cards</h2>
-
-<div id="admitCards">
-
-<div class="job-item">
-SSC GD Admit Card
-</div>
-
-<div class="job-item">
-UP Police Admit Card
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Results</h2>
-
-<div id="results">
-
-<div class="job-item">
-SSC CHSL Result
-</div>
-
-<div class="job-item">
-IBPS PO Result
-</div>
-
-</div>
-
-</div>
-
-</div>
+</body>
+</html>
