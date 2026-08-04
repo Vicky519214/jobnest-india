@@ -25,24 +25,41 @@
     <h2>📝 Add New Job / Post</h2>
     <form id="jobForm">
         <label>Job Title:</label>
-        <input type="text" id="title" required placeholder="e.g. UPSSSC PET Online Form 2026">
+        <input type="text" id="title" required placeholder="e.g. Railway ALP Recruitment">
+
+        <label>Company/Department:</label>
+        <input type="text" id="company" placeholder="e.g. Indian Railways">
+
+        <label>Salary:</label>
+        <input type="text" id="salary" placeholder="e.g. ₹19,900 - ₹63,200">
+
+        <label>Qualification:</label>
+        <input type="text" id="qualification" placeholder="e.g. 10th / ITI">
+
+        <label>Age Limit:</label>
+        <input type="text" id="age" placeholder="e.g. 18 - 30 Years">
+
+        <label>Last Date:</label>
+        <input type="text" id="lastDate" placeholder="e.g. 31/12/2026">
 
         <label>Category:</label>
         <select id="category" required>
             <option value="job">Latest Job</option>
             <option value="admit">Admit Card</option>
             <option value="result">Result</option>
+            <option value="railway">Railway</option>
+            <option value="ssc">SSC</option>
+            <option value="banking">Banking</option>
+            <option value="defence">Defence</option>
+            <option value="state">State Govt</option>
         </select>
-
-        <label>Last Date:</label>
-        <input type="text" id="lastDate" placeholder="e.g. 01/09/2026">
 
         <label>Official Apply URL:</label>
         <input type="url" id="applyUrl" required placeholder="https://example.com">
 
-        <!-- 📝 Description Box -->
+        <!-- 📝 নতুন যুক্ত করা Description বক্স -->
         <label>Description (বিস্তারিত বিবরণ):</label>
-        <textarea id="description" placeholder="Age limit, fees, qualification, and details..."></textarea>
+        <textarea id="description" placeholder="অন্যান্য বিবরণ বা তথ্য এখানে লিখুন..."></textarea>
 
         <button type="submit">🚀 Publish Job</button>
     </form>
@@ -53,14 +70,10 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // আপনার index.html থেকে নেওয়া সঠিক ফায়ারবেস কনফিগ
   const firebaseConfig = {
-    apiKey: "AIzaSyDummyKeyForJobNestIndia12345", // আপনার আসল apiKey দিয়ে এটি বদলে নিন
     authDomain: "jobnest-india.firebaseapp.com",
     projectId: "jobnest-india",
-    storageBucket: "jobnest-india.appspot.com",
-    messagingSenderId: "123456789012",
-    appId: "1:123456789012:web:abcdef123456"
+    storageBucket: "jobnest-india.appspot.com"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -75,8 +88,12 @@
       try {
           await addDoc(collection(db, "jobs"), {
               title: document.getElementById('title').value,
-              type: document.getElementById('category').value,
+              company: document.getElementById('company').value,
+              salary: document.getElementById('salary').value,
+              qualification: document.getElementById('qualification').value,
+              age: document.getElementById('age').value,
               lastDate: document.getElementById('lastDate').value,
+              type: document.getElementById('category').value,
               applyUrl: document.getElementById('applyUrl').value,
               description: document.getElementById('description').value,
               createdAt: serverTimestamp()
@@ -87,7 +104,7 @@
       } catch (error) {
           console.error("Error: ", error);
           status.style.color = "red";
-          status.innerText = "❌ Error publishing post. Check Firebase config!";
+          status.innerText = "❌ Error publishing post. Try again!";
       }
   });
 </script>
