@@ -1,69 +1,55 @@
-// Firebase SDK Modules ইম্পোর্ট করা
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | JobNest India</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-// ⚠️ এখানে আপনার Firebase Console থেকে পাওয়া Config বসাবেন
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
+<body>
 
-// Firebase ইনিশিয়ালাইজ করা
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+<header>
+<h1>🛠️ JobNest India Admin Panel</h1>
+</header>
 
-// DOM লোড হওয়ার পর ফর্ম হ্যান্ডেল করা
-document.addEventListener("DOMContentLoaded", () => {
-    const jobForm = document.getElementById("jobForm");
-    const messageDiv = document.getElementById("message");
+<section class="resume-form">
 
-    if (jobForm) {
-        jobForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
+<h2>Add New Post</h2>
 
-            // admin.html এর ID অনুযায়ী ডাটা নেওয়া
-            const title = document.getElementById("title").value;
-            const company = document.getElementById("company").value;
-            const location = document.getElementById("location").value;
-            const salary = document.getElementById("salary").value;
-            const applyLink = document.getElementById("applyLink").value;
+<form id="jobForm">
 
-            const submitBtn = jobForm.querySelector("button[type='submit']");
-            submitBtn.disabled = true;
-            submitBtn.innerText = "⏳ Adding Job...";
+<select id="category" required style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+  <option value="job">Latest Job</option>
+  <option value="admit-card" selected>Admit Card</option>
+  <option value="result">Result</option>
+</select>
 
-            try {
-                // Firestore-এর 'jobs' কালেকশনে তথ্য সেভ করা
-                await addDoc(collection(db, "jobs"), {
-                    title: title,
-                    company: company,
-                    location: location,
-                    salary: salary,
-                    applyLink: applyLink,
-                    createdAt: serverTimestamp()
-                });
+<input type="text" id="title" placeholder="Job Title / Post Name" required>
 
-                // সাফল্য মেসেজ দেখানো
-                if (messageDiv) {
-                    messageDiv.style.color = "green";
-                    messageDiv.innerText = "✅ Job added successfully!";
-                }
-                
-                jobForm.reset();
-            } catch (error) {
-                console.error("Error adding job: ", error);
-                if (messageDiv) {
-                    messageDiv.style.color = "red";
-                    messageDiv.innerText = "❌ Error: " + error.message;
-                }
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "➕ Add Job";
-            }
-        });
-    }
-});
+<input type="text" id="company" placeholder="Company / Department" required>
+
+<input type="text" id="location" placeholder="Location" required>
+
+<input type="text" id="salary" placeholder="Salary / Exam Date Details" required>
+
+<input type="url" id="applyLink" placeholder="Apply Link / Download Link" required>
+
+<button type="submit" class="btn">
+➕ Add Post
+</button>
+
+</form>
+
+<div id="message" style="margin-top: 15px; font-weight: bold;"></div>
+
+</section>
+
+<footer>
+<p>© 2026 JobNest India</p>
+</footer>
+
+<script type="module" src="admin.js"></script>
+
+</body>
+</html>
